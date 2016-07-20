@@ -41,7 +41,7 @@
             }
             echo '<p>' . give_currency_filter(give_format_amount($income)) . ' of ' . give_currency_filter(give_format_amount($goal)) . ' raised</p>';
             echo $output;
-            ?></div><?php
+            ?></div><hr><?php
         }
     }
     else {
