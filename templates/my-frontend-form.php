@@ -2,16 +2,17 @@
 /*
 *Template name: Frontend Form
 */
-global $give_options;
-if (is_user_logged_in()) {
+global $give_options; // used to retrieve the default login and register pages
+if (is_user_logged_in()) { // can only edit a campaign if logged in
 //ob_start();
-    if ( isset( $_POST['submitted'] )  )  {
-
+    if ( isset( $_POST['submitted'] )  )  { // check if submit was pressed
+/*
         if(($_POST['posttitle']) == "" ){
             $titleerr = "This Field is required";
             $hasError = true;
         }
-        $c_args = array(
+*/
+        $c_args = array( // arguments to query for the most recent active cause
             'post_type'     => 'give_forms',
             'tax_query'     => array(
                 'relation'  => 'AND',
