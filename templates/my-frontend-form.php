@@ -182,22 +182,29 @@ if (is_user_logged_in()) { // can only edit a campaign if logged in
                     return;
             }
         }
+        return;
     }
     ?>
     <form action="" method="post" enctype="multipart/form-data">
         <div>*Display name 顯示名稱<br>
-            <input name="posttitle" id="posttitle" type="text" placeholder = "Name of your Campaign" value="<?php campaign_info('title'); ?>" required/></div>
+            <input name="posttitle" id="posttitle" type="text" placeholder = "Name of your Campaign" value="<?php campaign_info('title'); ?>" required/>
+        </div>
         <div>Description 個人簡介<br>
-            <textarea name="postcontent" placeholder="A short summary of your campaign" id="postcontent" rows="5" cols="50"><?php campaign_info('description')?></textarea></div>
+            <textarea name="postcontent" placeholder="A short summary of your campaign" id="postcontent" rows="5" cols="50"><?php campaign_info('description')?></textarea>
+        </div>
         <div>Goal 籌款目標<br>
-            <input name="goal" id="goal" type="number" value="<?php campaign_info('goal'); ?>"/></div>
-        <div> Feature Image 個人圖像<br><input type="file" name="feat-image" id="feat-image"></div>
+            <input name="goal" id="goal" type="number" value="<?php campaign_info('goal'); ?>"/>
+        </div>
+        <div> Feature Image 個人圖像<br><input type="file" name="feat-image" id="feat-image">
+        </div>
         <p style="font-size:x-small">* Indicates a required field</p>
         <input type="hidden" name="submitted" id="submitted" value="true" /><br>
-        <input type="submit" value="Submit | 傳送" /></form>
-<?php } else { ?>
+        <input type="submit" value="Submit | 傳送" />
+    </form>
+    <?php } 
+    else { ?>
     <div>Please <a href="<?php global $give_options; echo get_permalink($give_options['login_page']);?>">log-in </a>
         or <a href="<?php global $give_options; echo get_permalink($give_options['register_page']);?>">register</a> to create a campaign</div>
     <div>請先<a href="<?php global $give_options; echo get_permalink($give_options['login_page']);?>">登入</a>
         或 <a href="<?php global $give_options; echo get_permalink($give_options['register_page']);?>">註冊</a> 後建立籌款網頁</div>
-<?php }
+    <?php }
