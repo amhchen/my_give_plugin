@@ -439,24 +439,29 @@ function give_process_profile_editor_updates( $data ) {
 
 add_action( 'give_edit_user_profile', 'give_process_profile_editor_updates' );
 
+/*
+ * Campaign Creator/Editor Shortcode
+ * Outputs the frontend edit form that allows users to set certain details of their
+ * campaign.
+ */
 function my_frontend_shortcode( $atts, $content = null ) {
-/*	$atts = shortcode_atts( array(
-		'redirect' => '',
-	), $atts, 'give_login' );
-*/
 	$file_name = "my-frontend-form.php";
+
 	ob_start();
 	give_locate_template($file_name,true);
-	//return give_login_form( $atts['redirect'] );
 }
 
 add_shortcode( 'post_creator', 'my_frontend_shortcode' );
 
+/*
+ * Teams Viewer Shortcode
+ * Outputs the teams and certain details of each team
+ */
 function group_list_shortcode( $atts, $content = null ) {
 	$file_name = "group-list.php";
+
 	ob_start();
 	give_locate_template($file_name,true);
-	//return give_login_form( $atts['redirect'] );
 }
 
 add_shortcode( 'group_list', 'group_list_shortcode' );
