@@ -1,0 +1,220 @@
+July 20,2016
+Changed occurences of Tag to Team
+Added shortcode [group_list] that displays teams and their respective members, and the aggregate amount raised over aggregate goal
+
+Added post meta _give_offline_money and a field in the admin's edit form page to fill it in. This number is added to the form's bar but is otherwise not used, for any reports or such.
+
+
+
+July 15,2016
+PROD-030: Fixed
+
+July 6-8, 2016
+UAT-021: Fixed (July 6)
+Various places for translation, and the US.po/US.mo files
+
+UAT-022: Closed(July 7)
+Duplicate issue
+
+UAT-024: Fixed (July 6)
+Added 'cause' to list of terms to add back to form, if 'cause' was originally there.
+templates\my-frontend-form.php lines 6	6-69,88
+
+UAT-025: Fixed (July 7)
+Manually created array with the correct object structure with 3 price levels.
+templates\my-frontend-form.php lines 71-86,91
+
+UAT-026: Fixed (July 7)
+Changed email notification timing to after a campaign has been created (rather than upon successful registration). New email contents as per vendor's request.
+includes\user-functions.php lines 425-449
+
+UAT-027: Fixed (July 7)
+Replaced default feature image of a campaign with logo provided by vendor. Placeholder text is 'Walk for Love' although this shouldn't show because image is stored within the plugin files
+templates\single-give-form\featured-image.php line 37
+assets\images\placeholder.png (added file)
+
+UAT-028: Fixed (July 7)
+With UAT-026 fix
+
+UAT-029: Fixed (July 8)
+With UAT-025 fix
+
+UAT-030: Fixed (July 8)
+Added line breaks to login/logout 
+give.php lines 437,439
+
+PROD-008: Fixed (July 8)
+Added translation of Donation Receipt as Donation Acknowledgement
+
+
+July 5, 2016
+UAT-016: Fixed
+Added option to show/hide the campaign link in the Give_Form Widget.
+includes\forms\original-widget.php lines 95-97,118,169-178
+includes\forms\template.php lines 1550-1555
+
+UAT-014: Fixed
+Fixed formatting of participant display
+includes\forms\widget.php lines 115-117
+
+
+July 4, 2016
+UAT-008: Fixed
+Added chinese translation to various words/phrases
+various
+
+UAT-009: Fixed
+Enforced alphanumeric restriction on username textbox and stated restriction as the placeholder value.
+templates\shortcode-register.php line 29
+
+UAT-010: Fixed
+Also changed custom minimum amount to $1.00
+templates\my-frontend-form.php lines 69,71
+
+UAT-011: Fixed
+Changed css for donation button to bright red.
+templates\give.css line 1332
+templates\give.min.css
+
+UAT-012: Fixed
+Added 2 lines: "Share your campaign:" followed by "<link>" under the title of the form
+includes\forms\templates lines 106-108
+
+UAT-013: Fixed
+Added the terms 'active','expired','cause' to the taxonomy 'give_forms_category'
+includes\post-types.php lines 234-236
+
+UAT-006: In Progress
+So far a two table under the donation button that displays a numerical textbox on the left and a dropdown that displays a list of active causes/campaigns. An 'add' button adds a row to the top of the table but the new cells only display placeholder text for now.
+includes\forms\template.php lines 166-211
+
+
+June 30, 2016
+UAT-004: Fixed
+Created a menu option that displays login/logout as appropriate. Login redirects as per usual, and logout redirects to the home page as per the function 'home_url()'
+give.php lines 433-449
+
+UAT-005: Fixed
+Added the original-widget.php file as a required file, so the widget registers and is available for display.
+give.php line 292
+
+Minor: Added Chinese translation of "Donate Now" on form buttons
+includes\forms\template.php lines 458, 1164
+
+
+June 29, 2016
+UAT-001: Fixed
+Initialized missing meta-data fields to fix the issue
+templates\my-frontend-form.php lines 78-82
+
+UAT-002: Fixed
+Added dropdown menu in the widget to allow changing the order campaign links are displayed in. Options include by title, by date created, and by amount raised.
+includes\forms\widget.php lines 82-86, 105-110, 136, 160-164
+
+
+June 28, 2016
+'Manage My Campaign' (ie login shortcode) will now redirect the user to his most recent active campaign if the user is logged in. Redirects to the post_creator form if no active campaigns exist.(Previously displayed an 'already logged in' error message).
+templates\shortcode-login.php lines 42-43
+includes\login-register.php lines 229-246
+
+Registration redirects to the post_creator form.
+includes\login-register.php lines 160,210-211
+
+Added a Recent Donations widget that displays the 4 most recent donations made on the site. Name (anoymous if requested), amount, and optional message are displayed.
+includes\forms\widget.php lines 204-402
+
+Minor fixes to Give Forms List widget. Now only displays active campaigns/causes.
+includes\forms\widget.php lines 94-107,161,164
+
+Created default Login and Register pages that are published on install. Changed previously hardcoded links into these default pages.
+includes\install.php lines 144-172
+templates\shortcode-register line 60
+templates\shortcode-login line 34
+templates\my-frontend-form.php lines 136-137
+
+
+June 27, 2016
+Fixed bug: 'Edit Campaign' only appears on a form if it is not expired (previous June 24 fix was buggy)
+templates\single-give-form\content-single-give-form.php line 54
+
+
+June 24, 2016
+Added functionality that disables the donate button of a Cause/Campaign if the target_date is in the past
+includes\forms\template.php lines 461-468
+
+Added text under the Goal Progress Bar that shows how many days until/since the event, according to the target_date metadata
+includes\forms\template.php lines 1260,1276-1279,1353-1355
+
+Altered the code so that the Goal Progress Bar shows the aggregate earnings of all campaigns under a cause (for donation forms that have the category 'cause')
+includes\forms\template.php lines 1282-1309
+
+Edit Campaign form now only allows successful submit of there is an donation form with both categories 'active' and 'cause'. If submit is clicked under other conditions, error message appears.
+Also, created campaigns are automatically under the current year's category (ie '2016'), in addition to the 'active' category
+templates\my-front-end-form.php lines 14-36,64-66
+
+Fixed bug: forms created through the frontend form can now accept custom amount donations.
+templates\my-front-end-form.php lines 67-68
+
+Fixed bug: 'Edit Campaign' only appears on a form if it is not expired according to target_date (previously only checked if post author was logged in)
+templates\single-give-form\content-single-give-form.php line 54
+
+
+June 23, 2016
+Added anonymous and comment options on the donation form. Selected option/data displays for each transaction in the admin backend under the transactions tab.
+includes\payments\functions.php lines 220-228
+includes\admin\payments\view-order-details.php lines 37-47, 281
+includes\forms\template.php lines 538-565
+
+Added target_date field when creating a new form in the admin backend interface.
+includes\admin\forms\metabox.php lines 230-235
+
+
+June 20, 2016
+templates.php line 526
+
+
+June 13, 2016
+Completed the Campaign Details page. Upon arriving on the page, the fields will display default values if the current user does not have a registered campaign that is active. An error message appears if the user is not logged in.
+Can edit goal, title, description, and feature image of the campaign. Goal is optional, Title is required.
+When submitted, will automatically become a published post under the 'active' category.
+templates\my-frontend-form.php various
+
+Tweaked post-types.php a bit to remove the useless give_campaign CPT and renamed give_forms to be Causes in the admin bar (not all spots were changed, need to find later).
+includes\post-types.php lines 42,45,54,55
+
+
+June 10, 2016
+The plugin now automatically creates Campaign Details page upon installation. This is the my-frontend-form.php form, accessed with the shortcode [post_creator]. The created edit campaign page can be accessed through the global variable give_options[edit_campaign_page]
+The my-frontend-form.php form now allows users to create a page of CPT 'give_forms'. Also added the option to upload a feature image. After clicking submit, the user is redirected to the newly created page if it was successfully created, and redirects to the home page otherwise.
+includes\install.php lines 129-142
+templates\my-frontend-form.php various
+
+Login now redirects to the my-frontend-form.php form (instead of the home page) if no active campaign created by the user exists.
+includes\login-register.php line 103
+
+
+June 9, 2016
+Added a shortcode, [post_creator] that displays a form, contained in my-frontend-form.php
+The form allows users to set the title and content of a new post, then submit it straight to publication. 
+templates\my-frontend-form.php (added file)
+includes\shortcodes.php line 442-453
+
+**Needed to insert ob_start() at beginning of theme's header.php to prevent the 'header already sent' warning
+
+June 2, 2016
+Finished widget, moved old widget file to original-widget.php
+includes\forms\widget.php (several places)
+includes\forms\original-widget.php (copy of the widget.php file)
+
+Login now redirects to the most recent give_form created by user, or main page if none exists
+includes\login-register.php line 102-114
+
+
+May 30, 2016
+Changed login form to include link for new users to register a new account
+templates\shortcode-login.php line 33-35
+
+Changed registration form to include First and Last names (functional fields), and added link for existing users to login
+templates\shortcode-register.php line 17-25, 27, 32, 59-61
+includes\login-register.php line 197-198
+	
