@@ -92,8 +92,9 @@ class Give_Forms_Widget extends WP_Widget
         do_action( 'give_before_forms_widget' );
 
         echo $title ? $before_title . $title . $after_title : '';
-        if ($instance['share_link'] == 'disabled') {
-            remove_action('after_show_goal_progress','share_link');
+
+        if ($instance['share_link'] == 'disabled') { // removes the 'share this campaign' bit if desired
+            remove_action('after_show_goal_progress','share_link',9,2);
         }
         give_get_donation_form( $instance );
 
@@ -115,7 +116,7 @@ class Give_Forms_Widget extends WP_Widget
             'title'        => '',
             'id'           => '',
             'float_labels' => '',
-            'share_link'   => '',
+            'share_link'   => '', // added for toggling the 'share this campaign' bit of the form
         );
 
         $instance = wp_parse_args( (array) $instance, $defaults );
@@ -166,6 +167,7 @@ class Give_Forms_Widget extends WP_Widget
         </p><?php
 
         // Widget: Share Link
+
         ?><p>
         <label for="<?php echo esc_attr( $this->get_field_id( 'share_link' ) ); ?>"><?php _e( 'Campaign Link:', 'give' ); ?></label>
         <select class="widefat" name="<?php echo esc_attr( $this->get_field_name( 'share_link' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'share_link' ) ); ?>">
@@ -173,7 +175,7 @@ class Give_Forms_Widget extends WP_Widget
             <option value="enabled" <?php selected( esc_attr( $share_link ), 'enabled' ) ?>><?php _e( 'Show', 'give' ); ?></option>
             <option value="disabled" <?php selected( esc_attr( $share_link ), 'disabled' ) ?>><?php _e( 'Hide', 'give' ); ?></option>
         </select><br>
-        <small><?php printf( __( 'Display or hide the form URL below the goal', 'give' ));?></small>
+        <small><?php printf( __( 'Display or hide the form\'s URL below the goal', 'give' ));?></small>
     </p><?php
     }
 
