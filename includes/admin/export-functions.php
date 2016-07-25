@@ -69,3 +69,77 @@ function give_export_all_donors() {
 }
 
 add_action( 'give_email_export', 'give_export_all_donors' );
+
+//***************************************************************
+// Functions for exporting a csv of user IDs and their respective campaigns
+
+function download_send_headers($filename) {
+	// disable caching
+	$now = gmdate("D, d M Y H:i:s");
+	header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+	header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
+	header("Last-Modified: {$now} GMT");
+
+	// force download
+	header("Content-Type: application/force-download");
+	header("Content-Type: application/octet-stream");
+	header("Content-Type: application/download");
+
+	// disposition / encoding on response body
+	header("Content-Disposition: attachment;filename={$filename}");
+	header("Content-Transfer-Encoding: binary");
+}
+
+function array2csv(array &$array) {
+	if (count($array) == 0) {
+		return null;
+	}
+	ob_start();
+	$df = fopen("php://output", 'w');
+	fputcsv($df, array('User ID','Campaign Name'));
+	foreach ($array as $row) {
+		fputcsv($df, $row);
+	}
+	fclose($df);
+	return ob_get_clean();
+}
+
+function find_post($user_id) {
+	$args = array(
+		'post_type' => 'give_forms',
+		'author'        => $user_id,
+		'tax_query'     => array(
+			'relation'  => 'AND',
+			array(
+				'taxonomy'  => 'give_forms_category',
+				'field'     => 'slug',
+				'terms'     => 'active'
+			),
+			array(
+				'taxonomy'  => 'give_forms_category',
+				'field'     => 'slug',
+				'terms'     => date('Y'),
+			)
+		),
+		'orderby'       => 'post_date',
+		'order'         => 'DESC'
+	);
+	$camps = get_posts( $args);
+	if (count($camps) == 0) {return '';}
+	else {
+		return get_the_title($camps[0]->ID);
+	}
+}
+function export_users() {
+	$array = array();
+	$query = get_users(array('fields'=>array('ID','display_name')));
+	foreach($query as $user) {
+		$array[] = array(find_post($user->ID),$user->ID);
+	}
+	download_send_headers("data_export_" . date("Y-m-d") . ".csv");
+	echo array2csv($array);
+	die();
+}
+
+add_action('give_campaign_export','export_users');
+//***************************************************************

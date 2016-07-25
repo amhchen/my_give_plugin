@@ -379,6 +379,16 @@ function give_reports_tab_export() {
 							</form>
 						</td>
 					</tr>
+					<tr><td class="row-title">
+							<h3><span><?php _e( 'Export Participants', 'give' ); ?></span></h3>
+
+							<p><?php _e( 'Download a CSV of all users\' IDs and their respective campaign names. Users with no currently active campaigns will be left blank	', 'give' ); ?></p>
+						</td><td>
+							<form method="post" id="give_user_export">
+								<input type="hidden" name="give-action" value="campaign_export" />
+								<input type="submit" value="<?php _e( 'Export Campaign Authors', 'give' ); ?>" class="button-secondary" />
+							</form>
+						</td></tr>
 					<?php do_action( 'give_reports_tab_export_table_bottom' ); ?>
 					</tbody>
 				</table>
