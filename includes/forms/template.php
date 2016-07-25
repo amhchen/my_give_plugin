@@ -613,6 +613,11 @@ function give_user_info_fields( $form_id ) {
 	do_action( 'give_purchase_form_after_personal_info', $form_id );
 
 }
+
+add_action( 'give_purchase_form_after_user_info', 'give_user_info_fields' );
+add_action( 'give_register_fields_before', 'give_user_info_fields' );
+
+
 function give_donations_custom_form_fields( $form_id ) {
 	$forms = array(8, 586);
 
@@ -641,10 +646,6 @@ function give_donations_custom_form_fields( $form_id ) {
 	//}//elseif ($form_id == $forms)
 }
 add_action( 'give_purchase_form_after_email', 'give_donations_custom_form_fields', 10, 1 );
-
-
-add_action( 'give_purchase_form_after_user_info', 'give_user_info_fields' );
-add_action( 'give_register_fields_before', 'give_user_info_fields' );
 
 /**
  * Renders the credit card info form.
@@ -1601,6 +1602,7 @@ function tax_receipt_text($form_id=0) {
 	?> <div><p><small>Tax deductible receipt will be issued for donation of $20 and above.<br>
 	$20或以上的捐款可獲退稅收條.</small></p></div><?php
 }
+
 add_action('after_show_goal_progress','edit_campaign_link',8,2);
 function edit_campaign_link($form_id,$args = array()) {
 	global $give_options;
@@ -1613,8 +1615,8 @@ function edit_campaign_link($form_id,$args = array()) {
 function email_id_button() {
 	if (get_the_author_meta('ID') == get_current_user_id()) {
 		?>
-		<button type="submit" name="resend-user-id">Resend User ID</button>
+		<a href="wp_lostpassword_url()">Resend User ID</a>
 		<?php
 	}
 }
-//add_action('after_title','email_id_button');
+//add_action('after_title','email_id');
