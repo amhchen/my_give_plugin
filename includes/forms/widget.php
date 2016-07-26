@@ -311,11 +311,18 @@ class Give_Donations_Widget extends WP_Widget
 			$don_user_id = give_get_payment_customer_id($don->ID);
 			echo "<div><strong>";
 			if ($don_meta['anon'] == 'yes') {
-				echo "Anonymous supporting ". get_the_title(give_get_payment_form_id($don->ID)) . ": ";
+				echo "Anonymous supported ";// get_the_title(give_get_payment_form_id($don->ID)) . ": ";
 			}
 			else {
 				$cust = new Give_Customer($don_user_id);
-				echo $cust->name . " supporting ". get_the_title(give_get_payment_form_id($don->ID)) . ": ";
+				echo $cust->name . " supported "; //get_the_title(give_get_payment_form_id($don->ID)) . ": ";
+			}
+			if (has_term('','give_forms_tag',give_get_payment_form_id($don->ID))) {
+				$term = get_the_tags(give_get_payment_form_id($don->ID),'give_forms_tag');
+				echo $term->name . ": ";
+			}
+			else {
+				echo get_the_title(give_get_payment_form_id($don->ID)) . ": ";
 			}
 			echo esc_html( give_currency_filter( give_format_amount( give_get_payment_amount( $don->ID ) ) ) );
 			echo "</strong><br>";
