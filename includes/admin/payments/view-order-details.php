@@ -42,7 +42,7 @@ add_action('give_donation_details_thead_after','anon_or_not_head');
 function anon_or_not_body($payment_id) {
 	$payment_meta = give_get_payment_meta($payment_id);
 	//$payment_meta['anon'] = "yes";
-	echo "<td>" . $payment_meta['anon'] . "</td>";
+	echo "<td>" . $payment_meta['publish_name'] . "</td>";
 }
 add_action('give_donation_details_tbody_after','anon_or_not_body');
 
@@ -54,7 +54,7 @@ add_action('give_donation_details_thead_after','hide_from_user_head');
 function hide_from_user_body($payment_id) {
 	$payment_meta = give_get_payment_meta($payment_id);
 	//$payment_meta['anon'] = "yes";
-	echo "<td>" . $payment_meta['anon_to_p'] . "</td>";
+	echo "<td>" . $payment_meta['publish_message'] . "</td>";
 }
 add_action('give_donation_details_tbody_after','hide_from_user_body');
 

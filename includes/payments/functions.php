@@ -220,8 +220,8 @@ function give_insert_payment( $payment_data = array() ) {
 function give_donations_store_custom_fields( $payment_meta ) {
 
 	$payment_meta['message'] = isset( $_POST['give_message'] ) ? implode( "n", array_map( 'sanitize_text_field', explode( "n", $_POST['give_message'] ) ) ) : '';
-	$payment_meta['anon'] = isset( $_POST['give_anonymous'] ) ? 'no' : 'yes';
-	$payment_meta['anon_to_p'] = isset( $_POST['give_anonymous_message'])? 'no' : 'yes';
+	$payment_meta['publish_name'] = isset( $_POST['give_anonymous'] ) ? 'yes' : 'no';
+	$payment_meta['publish_message'] = isset( $_POST['give_anonymous_message'])? 'yes' : 'no';
 
 	return $payment_meta;
 }
