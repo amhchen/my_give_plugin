@@ -95,10 +95,17 @@ class Give_Form_List_Widget extends WP_Widget
 			'post_type'      => 'give_forms',
 			'post_status'    => 'publish',
 			'tax_query'     => array(
+				'relation'		=> 'AND',
 				array(
 					'taxonomy'  => 'give_forms_category',
 					'field'     => 'slug',
 					'terms'     => 'active'
+				),
+				array(
+					'taxonomy'	=> 'give_forms_tag',
+					'field'		=> 'term_id',
+					'terms'		=> get_terms(array('taxonomy'=>'give_forms_tag','fields'=>'ids')),
+					'operator'	=> 'NOT IN'
 				)
 			),
 			'numberposts'		=> 5,
@@ -113,8 +120,7 @@ class Give_Form_List_Widget extends WP_Widget
 		foreach ( $give_forms as $give_form ) {
 			//echo get_permalink($give_form->ID );
 		echo "<a href = \"".esc_url(get_post_permalink($give_form->ID ))."\">";
-		echo get_the_title($give_form->ID) . " - Joined " . get_the_date("F j",$give_form->ID) . "<br>";
-		echo "$".get_post_meta($give_form->ID,'_give_form_earnings',true)." raised</a><br>";
+		echo get_the_title($give_form->ID) . " - "."$".get_post_meta($give_form->ID,'_give_form_earnings',true)." raised</a><br>";
 	    }
 		echo "</div>";
 		echo $after_widget;
@@ -310,7 +316,7 @@ class Give_Donations_Widget extends WP_Widget
 			$don_meta = give_get_payment_meta($don->ID);
 			$don_user_id = give_get_payment_customer_id($don->ID);
 			echo "<div><strong>";
-			if ($don_meta['anon'] == 'yes') {
+			if ($don_meta['publish_name'] == 'no') {
 				echo "Anonymous supported ";// get_the_title(give_get_payment_form_id($don->ID)) . ": ";
 			}
 			else {
@@ -318,15 +324,15 @@ class Give_Donations_Widget extends WP_Widget
 				echo $cust->name . " supported "; //get_the_title(give_get_payment_form_id($don->ID)) . ": ";
 			}
 			if (has_term('','give_forms_tag',give_get_payment_form_id($don->ID))) {
-				$term = get_the_tags(give_get_payment_form_id($don->ID),'give_forms_tag');
-				echo $term->name . ": ";
+				$term = get_the_terms(give_get_payment_form_id($don->ID),'give_forms_tag');
+				echo $term[0]->name . ": ";
 			}
 			else {
 				echo get_the_title(give_get_payment_form_id($don->ID)) . ": ";
 			}
 			echo esc_html( give_currency_filter( give_format_amount( give_get_payment_amount( $don->ID ) ) ) );
 			echo "</strong><br>";
-			if ($don_meta['anon_to_p'] == 'yes' && $don_meta['message'] != "") {
+			if ($don_meta['publish_message'] == 'yes' && $don_meta['message'] != "") {
 				echo '<p style="color:grey">' . $don_meta['message'] . "</p>";
 			}
 			echo "</div>";
@@ -527,13 +533,15 @@ class Give_Team_List_Widget extends WP_Widget
 				)
 			);
 			$members = get_posts($args);
-			$goal = 0;
-			$income = 0;
-			foreach ($members as $member) {
-				$goal += give_get_form_goal($member->ID);
-				$income += give_get_form_earnings_stats($member->ID) + get_post_meta($member->ID, '_give_offline_money', true);
+			if (count($members) > 0) {
+				$goal = 0;
+				$income = 0;
+				foreach ($members as $member) {
+					$goal += give_get_form_goal($member->ID);
+					$income += give_get_form_earnings_stats($member->ID) + get_post_meta($member->ID, '_give_offline_money', true);
+				}
+				$groups[$team->name] = $income;
 			}
-			$groups[$team->name] = $income;
 		}
 		arsort($groups,SORT_NUMERIC);
 
