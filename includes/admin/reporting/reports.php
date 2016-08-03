@@ -468,3 +468,19 @@ function export_user_row() {
 <?php
 }
 add_action('give_reports_tab_export_table_bottom','export_user_row');
+
+function participant_stats() {
+	?>
+	<tr><td class="row-title">
+			<h3><span><?php _e( 'Export Participant Statistics', 'give' ); ?></span></h3>
+
+			<p><?php _e( 'Download a CSV of Participant stats', 'give' ); ?></p>
+		</td><td>
+			<form method="post" id="give_user_export">
+				<input type="hidden" name="give-action" value="participant_stats_export" />
+				<input type="submit" value="<?php _e( 'Export Stats', 'give' ); ?>" class="button-secondary" />
+			</form>
+		</td></tr>
+	<?php
+}
+add_action('give_reports_tab_export_table_bottom','participant_stats');
