@@ -35,6 +35,7 @@ if (is_user_logged_in()) { // can only edit a campaign if logged in
 
         if (count($cause) > 0) {
             $cause_target_date = get_post_meta($cause[0]->ID, '_give_target_date', true);
+            $cause_prices = get_post_meta($cause[0]->ID, '_give_donation_levels', true);
         }
         else {
             wp_die("There aren't any active causes right now!");
@@ -79,8 +80,10 @@ if (is_user_logged_in()) { // can only edit a campaign if logged in
 
         $prices = array(); // multi-level donations metadata to add
 
-        /* Hardcoded levels, as requested by CCM*/
-        /* Structure is hardcoded to match existing Give infrastructure*/
+// Forms now extract the donation levels from the active cause, replaces the temp fix in this section
+/*
+        // Hardcoded levels, as requested by CCM
+        // Structure is hardcoded to match existing Give infrastructure
 
         //$30.00 level
         $prices[] = array('_give_id' => array( 'level_id' => 1),
@@ -97,12 +100,12 @@ if (is_user_logged_in()) { // can only edit a campaign if logged in
             '_give_amount' => '100.00',
             '_give_text' => '',
             '_give_default' => '',);
-
+*/
         // initialize or update metadata to match specs
         wp_set_object_terms($pid,$terms,'give_forms_category');
         update_post_meta($pid,'_give_default_gateway',"global");
         update_post_meta($pid,'_give_price_option',"multi");
-        update_post_meta($pid,'_give_donation_levels',$prices);
+        update_post_meta($pid,'_give_donation_levels',$cause_prices);
         update_post_meta($pid,'_give_set_price',"20.00");
         update_post_meta($pid,'_give_custom_amount',"yes");
         update_post_meta($pid,'_give_custom_amount_minimum',"1.00");
