@@ -244,3 +244,17 @@ function redirect_user_campaign() {
 	wp_redirect($redirect);
 	exit();
 }
+
+//Filter found in templates\shortcode-login.php
+add_filter('give_already_logged_in_message','redirect_user_campaign');
+
+// outputs html for a link that redirects to the new registration page
+function new_user_link() {
+	global $give_options; 
+?>
+<div class="give-new-user give-login">
+	<a href="<?php  echo get_permalink($give_options['register_page']); ?>" title="<?php _e( 'New User', 'give' ); ?>"><?php _e( 'New User? | 新用戶?', 'give' ); ?></a>
+</div>
+<?php 
+}
+add_action('give_login_fields_after','new_user_link');
