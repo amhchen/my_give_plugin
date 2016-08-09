@@ -28,10 +28,7 @@ if ( ! is_user_logged_in() ) {
 			</div>
 
 			<div class="give-lost-password give-login">
-				<a href="<?php echo wp_lostpassword_url(); ?>"	 title="<?php __( 'Lost Password', 'give' ); ?>"><?php _e( 'Lost Password?', 'give' ); ?></a>
-			</div>
-			<div class="give-new-user give-login">
-				<a href="<?php global $give_options; echo get_permalink($give_options['register_page']); ?>" title="<?php _e( 'New User', 'give' ); ?>"><?php _e( 'New User? | 新用戶?', 'give' ); ?></a>
+				<a href="<?php echo wp_lostpassword_url(); ?>" title="<?php _e( 'Lost Password', 'give' ); ?>"><?php _e( 'Lost Password?', 'give' ); ?></a>
 			</div>
 			<?php do_action( 'give_login_fields_after' ); ?>
 		</fieldset>
@@ -39,6 +36,5 @@ if ( ! is_user_logged_in() ) {
 <?php } elseif( isset( $_GET['give-login-success'] ) && $_GET['give-login-success'] == true ) { ?>
 	<?php give_output_error( apply_filters('give_successful_login_message', __( 'Login successful. Welcome!', 'give' )), true, 'success' ); ?>
 <?php } else { ?>
-	<?php //give_output_error( apply_filters('give_already_logged_in_message', __( 'You are already logged in to the site.', 'give' )), true, 'warning' );
-			redirect_user_campaign(); ?>
+	<?php give_output_error( apply_filters('give_already_logged_in_message', __( 'You are already logged in to the site.', 'give' )), true, 'warning' ); ?>
 <?php } ?>
